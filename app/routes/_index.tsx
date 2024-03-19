@@ -6,6 +6,9 @@ import { z } from 'zod'
 import { ErrorMessage } from '~/components/ErrorMessage'
 
 import { useIsPending } from '~/utils/misc'
+import { commitToastSession, getToastSession } from '~/utils/toast.server'
+
+export const SESSION_MESSAGE = 'show_toast_on_login_page_after_signup_success'
 
 export const LoginFormSchema = z.object({
   email: z
@@ -49,9 +52,9 @@ export async function action({ request }: ActionFunctionArgs) {
     async: true,
   })
 
-  console.log({ submission })
+  console.log(JSON.stringify(submission, null, 2))
   console.log(submission.status !== 'success')
-  if (submission.status !== 'success' || !submission.value?.session) {
+  if (submission.status !== 'success') {
     console.log('inside')
     return json(
       { result: submission.reply({ hideFields: ['password'] }) },
@@ -67,12 +70,15 @@ export async function action({ request }: ActionFunctionArgs) {
     )
   }
 
-  return redirect('/dashboard', {
-    headers: {
-      'Set-Cookie': 'LoggedIn',
-    },
-  })
+  const toastSession = await getToastSession(request)
+  toastSession.flash(SESSION_MESSAGE, `Login successful!!!`)
+
+  const headers = new Headers()
+  headers.append('Set-Cookie', await commitToastSession(toastSession))
+
+  return redirect('/dashboard', { headers })
 }
+
 export default function Login() {
   const actionData = useActionData<typeof action>()
   const isPending = useIsPending()
@@ -87,6 +93,8 @@ export default function Login() {
     shouldValidate: 'onBlur',
   })
 
+  console.log(JSON.stringify(fields, null, 2))
+
   return (
     <div className="max-w-96">
       <h1 className="pl-2 mb-2 text-3xl text-amber-500">
@@ -94,29 +102,23 @@ export default function Login() {
       </h1>
       <div>
         <Form
-          role="form"
           method="POST"
+          action="?index"
           {...getFormProps(form)}
           className="flex flex-col"
         >
           <input
-            {...getInputProps(fields.email, { type: 'email' })}
-            id="email"
-            aria-label="Enter your email"
-            placeholder="email"
-            name="email"
             className="p-2 m-2"
+            placeholder="enter your email"
+            {...getInputProps(fields.email, { type: 'email' })}
           />
           {fields.email.errors && (
             <ErrorMessage>{fields.email.errors}</ErrorMessage>
           )}
           <input
-            {...getInputProps(fields.email, { type: 'password' })}
-            id="password"
-            aria-label="Enter your password"
-            placeholder="password"
-            name="password"
             className="p-2 m-2"
+            placeholder="enter your password"
+            {...getInputProps(fields.password, { type: 'password' })}
           />
           {fields.password.errors && (
             <ErrorMessage>{fields.password.errors}</ErrorMessage>

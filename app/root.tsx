@@ -13,10 +13,11 @@ export const links: LinksFunction = () => [
   {
     rel: 'stylesheet',
     href: styles,
+    as: 'style',
   },
 ]
 
-export default function App() {
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -25,11 +26,15 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-screen bg-zinc-900 text-white m-2 p-2">
-        <Outlet />
+      <body className="h-screen bg-zinc-900 text-white">
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   )
+}
+
+export default function App() {
+  return <Outlet />
 }
