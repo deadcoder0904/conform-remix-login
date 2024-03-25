@@ -36,19 +36,7 @@ export async function login({
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
   const submission = await parseWithZod(formData, {
-    schema: LoginFormSchema.transform(async (data, ctx) => {
-      const session = await login(data)
-      console.log({ session })
-      if (!session) {
-        ctx.addIssue({
-          path: ['email'],
-          code: z.ZodIssueCode.custom,
-          message: 'Invalid email or password',
-        })
-        return z.NEVER
-      }
-      return { ...data, session }
-    }),
+    schema: LoginFormSchema,
     async: true,
   })
 
@@ -61,22 +49,35 @@ export async function action({ request }: ActionFunctionArgs) {
       { status: submission.status === 'error' ? 400 : 200 }
     )
   }
-  console.log('hi')
-  const { session } = submission.value
-  if (!session) {
-    return json(
-      { status: 'error', result: submission.reply() },
-      { status: 400 }
-    )
+
+  try {
+    const session = await login(submission.value)
+    console.log('hi')
+    if (!session) {
+      return json(
+        { status: 'error', result: submission.reply() },
+        { status: 400 }
+      )
+    }
+
+    const toastSession = await getToastSession(request)
+    toastSession.flash(SESSION_MESSAGE, `Login successful!!!`)
+
+    const headers = new Headers()
+    headers.append('Set-Cookie', await commitToastSession(toastSession))
+
+    return redirect('/dashboard', { headers })
+  } catch (err) {
+    return json({
+      result: submission.reply({
+        formErrors: [(err as Error).message],
+      }),
+      status: 400,
+    })
+    // if (err instanceof BadRequestError || err instanceof NotFoundError) {
+    // }
+    // throw err
   }
-
-  const toastSession = await getToastSession(request)
-  toastSession.flash(SESSION_MESSAGE, `Login successful!!!`)
-
-  const headers = new Headers()
-  headers.append('Set-Cookie', await commitToastSession(toastSession))
-
-  return redirect('/dashboard', { headers })
 }
 
 export default function Login() {
