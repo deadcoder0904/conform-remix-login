@@ -12,8 +12,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@conform-to/react": "^1.0.6",
-    "@conform-to/zod": "^1.0.6",
+    "@conform-to/react": "1.1.0-pre.0",
+    "@conform-to/zod": "1.1.0-pre.0",
     "@remix-run/node": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "@remix-run/serve": "^2.8.1",

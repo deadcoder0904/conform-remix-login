@@ -6,11 +6,11 @@ settings:
 
 dependencies:
   '@conform-to/react':
-    specifier: ^1.0.6
-    version: 1.0.6(react@18.2.0)
+    specifier: 1.1.0-pre.0
+    version: 1.1.0-pre.0(react@18.2.0)
   '@conform-to/zod':
-    specifier: ^1.0.6
-    version: 1.0.6(zod@3.22.4)
+    specifier: 1.1.0-pre.0
+    version: 1.1.0-pre.0(zod@3.22.4)
   '@remix-run/node':
     specifier: ^2.8.1
     version: 2.8.1(typescript@5.4.3)
@@ -443,25 +443,25 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@conform-to/dom@1.0.6:
-    resolution: {integrity: sha512-24teTftuAfcjv+SiaFYb9msjdQA7Kq8Yk9QkMPrkF8LETl80+i5fpCaIG8V91KyTitBeBcc80gg9HuPuuq3dqQ==}
+  /@conform-to/dom@1.1.0-pre.0:
+    resolution: {integrity: sha512-AcGPLKhjJX08VH2IVUtz0YUUi0pWydRphptmo6YrW6H+r56UZwHQ8E5EIytTLg4ElO3ZTLt0GtpMc0Hi6SK6AQ==}
     dev: false
 
-  /@conform-to/react@1.0.6(react@18.2.0):
-    resolution: {integrity: sha512-GHnUP89tGoikg7HhHP3V9U38BybyijjEV618GZFkqmW5o2jcViWsiLiY9XokJVEVckZ7aj5rZo3u6TfBv0lXlQ==}
+  /@conform-to/react@1.1.0-pre.0(react@18.2.0):
+    resolution: {integrity: sha512-Z+JtN8RNyEtO4BS1yytpAYNo9C4F9g/PdtXSXz/IzZAIRyGi1nA6yIIdz1AdmBYKOqqdjuMGcu0fP5xF8T/DWA==}
     peerDependencies:
       react: '>=18'
     dependencies:
-      '@conform-to/dom': 1.0.6
+      '@conform-to/dom': 1.1.0-pre.0
       react: 18.2.0
     dev: false
 
-  /@conform-to/zod@1.0.6(zod@3.22.4):
-    resolution: {integrity: sha512-l+fMqEymGG7wrCIdp7Lyt1UPKdlvHbM5KDHeGQkuIEgqISpDVwOH/xt3xb/THzW1unk6beYWh99xMuEmV/ATYw==}
+  /@conform-to/zod@1.1.0-pre.0(zod@3.22.4):
+    resolution: {integrity: sha512-CCf4neIkBoZAD0CB1vu406cpOZDt4mad8JwLi7w2PVfgSVBNQ+CltPJ+foyCnnzmgknyFTv3EwrHzZAF4XiaeQ==}
     peerDependencies:
       zod: ^3.21.0
     dependencies:
-      '@conform-to/dom': 1.0.6
+      '@conform-to/dom': 1.1.0-pre.0
       zod: 3.22.4
     dev: false
 
