@@ -1,6 +1,6 @@
 # conform-remix-login
 
-> Login example using Conform with Remix
+> Login example using Conform with Remix..
 
 ### Failure attempt
 
